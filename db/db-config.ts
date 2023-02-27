@@ -14,8 +14,8 @@ export class DatabaseConnectionService implements TypeOrmOptionsFactory {
       password: 'aioshima',
       database: 'postgres',
       synchronize: true,
-      dropSchema: true,
-      logging: true,
+      // dropSchema: true,
+      // logging: true,
       entities: [UserEntity],
     };
   }

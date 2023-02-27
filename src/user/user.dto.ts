@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer';
 import { UserRole } from './user.entity';
-import { BaseDto } from '../../common/base.dto';
-export class UserDto extends BaseDto {
+import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+export class UserDto {
   @Expose()
   id: number;
 
@@ -23,4 +23,25 @@ export class UserDto extends BaseDto {
 
   @Expose()
   age: number;
+}
+
+export class LoginDTo {
+  @IsEmail()
+  @MinLength(4)
+  email: string;
+
+  @IsString()
+  @MinLength(4)
+  password: string;
+}
+
+export class RegistrationDTO {
+  @IsString()
+  @MinLength(4)
+  @MaxLength(20)
+  username: string;
+}
+
+export interface AuthPayload {
+  username: string;
 }
