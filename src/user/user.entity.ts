@@ -1,5 +1,8 @@
+import { classToPlain, Exclude } from 'class-transformer';
+import { IsEmail } from 'class-validator';
 import { BaseEntity } from 'common/mysql/base.entity';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 export enum UserRole {
   ADMIN = 'admin',
   EDITOR = 'client',
@@ -13,25 +16,46 @@ export class UserEntity extends BaseEntity {
   @Column({
     length: 50,
   })
+  @IsEmail()
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({
     length: 50,
+    unique: true,
   })
-  firstName: string;
+  username: string;
 
-  @Column()
-  lastName: string;
+  @Column({
+    default: null,
+    nullable: true,
+  })
+  address: string | null;
 
-  @Column()
-  address: string;
+  @Column({
+    default: null,
+    nullable: true,
+  })
+  avatar: string | null;
 
-  @Column()
-  avatar: string;
-
-  @Column()
+  @Column({
+    default: 2,
+  })
   role: number;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
+  async comparePassword(password: string) {
+    return await bcrypt.compare(password, this.password);
+  }
+
+  toJSON() {
+    return classToPlain(this);
+  }
 }
