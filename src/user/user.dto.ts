@@ -1,6 +1,6 @@
 import { Expose, Transform } from 'class-transformer';
-import { UserRole } from './user.entity';
 import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+import { UserRole } from './role.enum';
 export class UserDto {
   @Expose()
   id: number;
@@ -19,7 +19,7 @@ export class UserDto {
   description: string;
 
   @Expose()
-  role: UserRole;
+  role: UserRole[];
 
   @Expose()
   age: number;
@@ -44,4 +44,5 @@ export class RegistrationDTO {
 
 export interface AuthPayload {
   username: string;
+  email?: string;
 }

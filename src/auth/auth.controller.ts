@@ -1,14 +1,18 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
+  Request,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { LoginDTo, RegistrationDTO } from 'src/user/user.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
-@Controller('users')
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('/register')
@@ -28,4 +32,10 @@ export class AuthController {
       console.log(err);
     }
   }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req) {
+  //   return req.user;
+  // }
 }
