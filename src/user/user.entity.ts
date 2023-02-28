@@ -3,11 +3,7 @@ import { IsEmail } from 'class-validator';
 import { BaseEntity } from 'common/mysql/base.entity';
 import { BeforeInsert, Column, Entity } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-export enum UserRole {
-  ADMIN = 'admin',
-  EDITOR = 'client',
-  GHOST = 'ghost',
-}
+import { UserRole } from './role.enum';
 
 @Entity({
   name: 'user',
@@ -42,9 +38,11 @@ export class UserEntity extends BaseEntity {
   avatar: string | null;
 
   @Column({
-    default: 2,
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.CLIENT,
   })
-  role: number;
+  roles: UserRole[];
 
   @BeforeInsert()
   async hashPassword() {
