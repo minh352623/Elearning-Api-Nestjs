@@ -14,16 +14,17 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnectionService,
     }),
+
     AuthModule,
     UserModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: 'APP_GUARD',
-      useClass: RolesGuard,
-    },
+    // {
+    //   provide: 'APP_GUARD',
+    //   useClass: RolesGuard,
+    // },
   ],
 })
 export class AppModule {}

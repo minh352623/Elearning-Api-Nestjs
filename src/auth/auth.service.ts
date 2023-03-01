@@ -48,7 +48,11 @@ export class AuthService {
           message: 'Password is not valid',
         };
 
-      const payload = { username: userOld.username, email: userOld.email };
+      const payload = {
+        username: userOld.username,
+        email: userOld.email,
+        roles: userOld.roles,
+      };
       const token = this.jwtService.sign(payload);
       return { user: { ...userOld.toJSON(), token: token } };
     } catch (e) {

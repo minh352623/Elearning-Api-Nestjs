@@ -11,6 +11,7 @@ import { UserRole } from './role.enum';
 export class UserEntity extends BaseEntity {
   @Column({
     length: 50,
+    unique: true,
   })
   @IsEmail()
   email: string;

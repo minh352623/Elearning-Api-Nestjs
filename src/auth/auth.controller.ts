@@ -27,9 +27,11 @@ export class AuthController {
   @Post('/login')
   login(@Body(ValidationPipe) user: LoginDTo) {
     try {
+      console.log(user);
+
       return this.authService.login(user);
     } catch (err) {
-      console.log(err);
+      return err;
     }
   }
 

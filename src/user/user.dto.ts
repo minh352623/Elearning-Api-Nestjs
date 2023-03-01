@@ -1,5 +1,11 @@
-import { Expose, Transform } from 'class-transformer';
-import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+import { Exclude, Expose, Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
 import { UserRole } from './role.enum';
 export class UserDto {
   @Expose()
@@ -40,9 +46,36 @@ export class RegistrationDTO {
   @MinLength(4)
   @MaxLength(20)
   username: string;
+
+  @IsEmail()
+  @MinLength(4)
+  email: string;
+
+  @IsString()
+  @MinLength(4)
+  @MaxLength(20)
+  password: string;
 }
 
 export interface AuthPayload {
   username: string;
   email?: string;
+}
+
+export class UpdateUserDTO {
+  @IsOptional()
+  age: number;
+
+  @IsOptional()
+  address: number;
+
+  username: number;
+
+  @IsOptional()
+  avatar: string;
+
+  @Exclude() //bo cai nay moi validate
+  @MinLength(4)
+  @IsOptional()
+  password: string;
 }
