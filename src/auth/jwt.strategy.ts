@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import 'dotenv/config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -27,11 +27,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email,
       username,
     });
-    console.log(user);
 
     if (!user) {
       throw new UnauthorizedException();
     }
+
+    console.log('check jwt');
 
     return user;
   }

@@ -5,9 +5,9 @@ import { plainToInstance } from 'class-transformer';
 export class MysqlBaseService<Entity extends BaseEntity, Dto> {
   constructor(protected repo: Repository<Entity>) {}
 
-  async save(data: Dto): Promise<any> {
+  async save(data: any): Promise<any> {
     const dataNew = await this.repo.save(data as any);
-    // return plainToInstance(Dto, dataNew, {
+    // return plainToInstance(any, dataNew, {
     //   excludeExtraneousValues: true,
     // });
     return dataNew;
@@ -44,18 +44,18 @@ export class MysqlBaseService<Entity extends BaseEntity, Dto> {
           id: id as any,
         },
       });
-      // return plainToInstance(UserDto, user, { excludeExtraneousValues: true });
+      // return plainToInstance(Userany, user, { excludeExtraneousValues: true });
       return data;
     } catch (err) {
       console.log(err);
     }
   }
 
-  async update(id: number, user: Dto): Promise<any> {
+  async update(id: number, data: any): Promise<any> {
     try {
       const userold = await this.findOne(id);
       if (!userold) return 'user not found';
-      //   return plainToInstance(Dto, user, { excludeExtraneousValues: true });
+      //   return plainToInstance(any, user, { excludeExtraneousValues: true });
       //   user.firstName && (userold.firstName = user.firstName);
       //   user.lastName && (userold.lastName = user.lastName);
       //   user.avatar && (userold.avatar = user.avatar);
@@ -64,8 +64,13 @@ export class MysqlBaseService<Entity extends BaseEntity, Dto> {
       //   user.age && (userold.age = user.age);
       //   const userNew = await this.repo.save(userold);
 
-      const updateStatus = await this.repo.update(id, user as any);
-      return 'success';
+      const updateStatus = await this.repo.update(id, data as any);
+
+      console.log(updateStatus);
+
+      return {
+        message: 'update succcessfully',
+      };
     } catch (err) {
       console.log(err);
     }
