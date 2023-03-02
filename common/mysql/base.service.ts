@@ -1,6 +1,12 @@
 import { Repository } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { plainToInstance } from 'class-transformer';
+import {
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 export class MysqlBaseService<Entity extends BaseEntity, Dto> {
   constructor(protected repo: Repository<Entity>) {}
@@ -54,7 +60,7 @@ export class MysqlBaseService<Entity extends BaseEntity, Dto> {
   async update(id: number, data: any): Promise<any> {
     try {
       const userold = await this.findOne(id);
-      if (!userold) return 'user not found';
+      if (!userold) throw new NotFoundException();
       //   return plainToInstance(any, user, { excludeExtraneousValues: true });
       //   user.firstName && (userold.firstName = user.firstName);
       //   user.lastName && (userold.lastName = user.lastName);
@@ -67,10 +73,13 @@ export class MysqlBaseService<Entity extends BaseEntity, Dto> {
       const updateStatus = await this.repo.update(id, data as any);
 
       console.log(updateStatus);
-
-      return {
-        message: 'update succcessfully',
-      };
+      if (updateStatus.affected === 1) {
+        return {
+          message: 'update succcessfully',
+        };
+      } else {
+        throw new InternalServerErrorException();
+      }
     } catch (err) {
       console.log(err);
     }
