@@ -1,7 +1,7 @@
 import { classToPlain, Exclude } from 'class-transformer';
 import { IsEmail } from 'class-validator';
 import { BaseEntity } from 'common/mysql/base.entity';
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToMany } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { UserRole } from './role.enum';
 
@@ -37,7 +37,6 @@ export class UserEntity extends BaseEntity {
     nullable: true,
   })
   avatar: string | null;
-
   @Column({
     type: 'enum',
     enum: UserRole,

@@ -11,9 +11,6 @@ export class UserDto {
   @Expose()
   id: number;
 
-  firstName: string;
-  lastName: string;
-
   @Expose()
   @Transform(({ obj }) => obj.firstName + ' ' + obj.lastName)
   fullName: string;
@@ -74,7 +71,7 @@ export class UpdateUserDTO {
   @IsOptional()
   avatar: string;
 
-  @Exclude() //bo cai nay moi validate
+  // @Exclude() //bo cai nay moi validate
   @MinLength(4)
   @IsOptional()
   password: string;
